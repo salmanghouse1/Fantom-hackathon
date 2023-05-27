@@ -7,6 +7,15 @@ import { useCallback } from "react";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import Hero from "../assets/crypto-center.gif";
+import ComplexNavbar from "../components/Header";
+import {
+    Navbar,
+    MobileNav,
+    Typography,
+    Button,
+    IconButton,
+    Card,
+  } from "@material-tailwind/react";
 
 function Home() {
     
@@ -24,22 +33,26 @@ function Home() {
 
 
     return ( 
+        
         <div>
+            <ComplexNavbar></ComplexNavbar>
 
 
- <div style={{display:"flex",position:"absolute",width:"100%",height:"100%",background:"#282c34"}}>
-        <div style={{zIndex:9,width:"300px",padding:"150px"}}>
-        <img src={Hero} style={{width:"100%",postion:"relative"}}/>
+ <div style={{display:"flex",flexDirection:"column",position:"absolute",width:"100%",height:"100%",background:"#282c34"}}>
+        <div style={{width:"100%"}}>
+        <img src={Hero} style={{postion:"relative",margin:"150px auto"}}/>
             
         </div>
     
-        <div style={{padding:"150px"}}>
-        <div style={{flexDirection:"column"}}>
+        <div style={{display: "flex",justifyContent: "center",
+    alignItems: "center"}}>
+        
         <Particles
             id="tsparticles"
             init={particlesInit}
             loaded={particlesLoaded}
-            width="399px"
+            width="300px"
+            height="100px"
             options={{
                 fullScreen: { enable: false },
                 background: {
@@ -52,10 +65,11 @@ function Home() {
                     events: {
                         onClick: {
                             enable: true,
-                            mode: "repulse",
+                            mode:"push",
                         },
                         onHover: {
-                            enable: false,
+                            enable: true,
+                            mode: "repulse",
                         },
                         resize: true,
                     },
@@ -64,7 +78,7 @@ function Home() {
                             quantity: 4,
                         },
                         repulse: {
-                            distance: 200,
+                            distance: 20,
                             duration: 0.4,
                         },
                     },
@@ -113,9 +127,11 @@ function Home() {
                 detectRetina: true,
             }}
             />
-            
-            <h1>Fantom The Fastest There is!</h1>
             </div>
+            <div>
+            <h1 style={{color:"white"}}>Fantom The Fastest There is!</h1>
+            <Button variant="gradient">Trade Now</Button>
+            
         
         </div>
         
