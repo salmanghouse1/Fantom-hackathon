@@ -1,13 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
 import Home from './pages/Home';
+import MarketPlace from './pages/Marketplace';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-      </header>
+      
       <Home></Home>
+      <MarketPlace></MarketPlace>
     </div>
   );
 }
