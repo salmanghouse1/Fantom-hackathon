@@ -13,12 +13,11 @@ function MarketPlace() {
 
     return ( 
         
-        <div>
-        <ComplexNavbar/>
-        <div>
-            <div>
-                <div class="divTable">
-<div class="divTableBody">
+        
+        <div className='columns-3 container mx-auto'>
+           
+   
+                <div className="divTableBody w-full aspect-video">
 <div class="divTableRow">
 <div class="divTableCell">Token Name</div>
 <div class="divTableCell">Price</div>
@@ -60,18 +59,19 @@ function MarketPlace() {
 <div class="divTableCell">&nbsp;</div>
 <div class="divTableCell">&nbsp;</div>
 </div>
-</div>
-</div>
- 
-            </div>
-            <div id="GraphContainer">
-<ApexChartGraphComp></ApexChartGraphComp>
 
-
-            </div>
-        </div>
 </div>
-        
+
+<div id="GraphContainer" className="tGraphComp w-full aspect-video">
+
+            <ApexChartGraphComp/>
+
+</div>
+          
+          
+      
+<div className='w-full aspect-video'></div>
+     </div>
         
      );
 }

@@ -8,6 +8,8 @@ import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import Hero from "../assets/crypto-center.gif";
 import ComplexNavbar from "../components/Header";
+
+
 import {
     Navbar,
     MobileNav,
@@ -35,8 +37,27 @@ function Home() {
     return ( 
         
         <div>
-            <ComplexNavbar></ComplexNavbar>
-
+           
+            <div className="mx-auto max-w-screen-md py-12">
+        <Card className="mb-12 overflow-hidden">
+          <img
+            alt="nature"
+            className="h-[32rem] w-full object-cover object-center"
+            src="https://images.unsplash.com/photo-1485470733090-0aae1788d5af?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2717&q=80"
+          />
+        </Card>
+        <Typography variant="h2" color="blue-gray" className="mb-2">
+          What is Fantom Exchange?
+        </Typography>
+        <Typography color="gray" className="font-normal">
+          So you ask Can you help me out in Finance and Asset Trading? 
+          So I have created the fastest, most decentralized Exchange and its using the Fantom Coin! Fantom Coin The Fastest most secure coin out there!
+          Lets Trade, Swap and do more on this awesome site, even discuss your trades on the social media app.
+        </Typography>
+        <Button variant="gradient">Connect Wallet</Button>
+      </div>
+   
+      
 
  <div style={{display:"flex",flexDirection:"column",position:"absolute",width:"100%",height:"100%",background:"#282c34"}}>
         <div style={{width:"100%"}}>
