@@ -5,6 +5,12 @@ import React from 'react';
 import ComplexNavbar from "../components/Header";
 import "../App.css";
 import ApexChartGraphComp from '../components/Graph';
+import {
+    Button,
+    IconButton,
+    Card,
+    Input
+  } from "@material-tailwind/react";
 
 function MarketPlace() {
     
@@ -166,21 +172,23 @@ function MarketPlace() {
     <div id="buy" style={{display:"flex",flexDirection:"column"}}>
 <h3>Buy</h3>
 <label>Price</label>
-<input></input>
+<Input></Input>
 <label>Amount</label>
-<input></input>
+<Input></Input>
 <label>Price</label>
-<input></input>
+<Input></Input>
+<Button>Buy</Button>
 
     </div>
     <div id="sell" style={{display:"flex",flexDirection:"column"}}>
 <h3>Sell</h3>
 <label>Price</label>
-<input></input>
+<Input></Input>
 <label>Amount</label>
-<input></input>
+<Input></Input>
 <label>Price</label>
-<input></input>
+<Input></Input>
+<Button>Sell</Button>
 
     </div>
     
