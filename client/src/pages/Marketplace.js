@@ -162,7 +162,32 @@ function MarketPlace() {
 </div>
 
 </div>
-<div style={{flex:'300px'}}>b</div><div style={{flex:'300px'}}> c</div></div>
+<div style={{flex:'300px',display:"flex",flexDirection:"row"}}>
+    <div id="buy" style={{display:"flex",flexDirection:"column"}}>
+<h3>Buy</h3>
+<label>Price</label>
+<input></input>
+<label>Amount</label>
+<input></input>
+<label>Price</label>
+<input></input>
+
+    </div>
+    <div id="sell" style={{display:"flex",flexDirection:"column"}}>
+<h3>Sell</h3>
+<label>Price</label>
+<input></input>
+<label>Amount</label>
+<input></input>
+<label>Price</label>
+<input></input>
+
+    </div>
+    
+    </div><div style={{flex:'300px'}}> 
+    <p>Last Price</p>
+    
+    </div></div>
 </div> 
         
      );
