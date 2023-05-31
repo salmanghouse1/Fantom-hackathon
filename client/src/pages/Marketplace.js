@@ -4,6 +4,7 @@ import React from 'react';
 // import Particles from 'react-particles-js';
 import ComplexNavbar from "../components/Header";
 import "../App.css";
+import { Web3Button } from "@thirdweb-dev/react";
 import ApexChartGraphComp from '../components/Graph';
 import {
     Button,
@@ -11,20 +12,25 @@ import {
     Card,
     Input
   } from "@material-tailwind/react";
+import { useContractRead, useContract } from "@thirdweb-dev/react";
 
-function MarketPlace() {
+async function MarketPlace() {
     
-      
+const { data: contract } = useContract("{{contract_address}}");
+const { data, isLoading, error } = useContractRead(contract, "functionName");
+
+var nextScreen = await sdk.wallet.IsConnected();
 
 
     return ( 
         
         
         <div>
-           <div style={{display:'flex'}}>
 
-   
-                <div style={{flex:'300px'}}>
+{nextScreen ? 
+<ThirdwebProvider activeChain="ethereum">
+<div style={{display:'flex'}}>  
+<div style={{flex:'300px'}}>
 <div class="divTableRow">
 <div class="divTableCell">Token Name</div>
 <div class="divTableCell">Price</div>
@@ -71,12 +77,12 @@ function MarketPlace() {
 
 <div style={{flex:'300px'}}>
 
-            <ApexChartGraphComp/>
+<ApexChartGraphComp/>
 
 </div>
-          
-          
-      
+
+
+
 <div style={{flex:'300px'}}>
 <div class="divTableRow">
 <div class="divTableCell">Price</div>
@@ -121,9 +127,9 @@ function MarketPlace() {
 </div>
 </div>
 
-           </div>
+</div>
 <div style={{display:'flex'}}>
-    
+
 <div style={{flex:'300px'}}>
 <div class="divTableRow">
 <div class="divTableCell">Price</div>
@@ -169,7 +175,7 @@ function MarketPlace() {
 
 </div>
 <div style={{flex:'300px',display:"flex",flexDirection:"row"}}>
-    <div id="buy" style={{display:"flex",flexDirection:"column"}}>
+<div id="buy" style={{display:"flex",flexDirection:"column"}}>
 <h3>Buy</h3>
 <label>Price</label>
 <Input></Input>
@@ -179,8 +185,8 @@ function MarketPlace() {
 <Input></Input>
 <Button>Buy</Button>
 
-    </div>
-    <div id="sell" style={{display:"flex",flexDirection:"column"}}>
+</div>
+<div id="sell" style={{display:"flex",flexDirection:"column"}}>
 <h3>Sell</h3>
 <label>Price</label>
 <Input></Input>
@@ -190,12 +196,17 @@ function MarketPlace() {
 <Input></Input>
 <Button>Sell</Button>
 
-    </div>
-    
-    </div><div style={{flex:'300px'}}> 
-    <p>Last Price</p>
-    
-    </div></div>
+</div>
+
+</div><div style={{flex:'300px'}}> 
+<p>Last Price</p>
+
+</div></div></ThirdwebProvider> : <ThirdwebProvider activeChain="ethereum">
+<Web3Button contractAddress="{{contract_address}}" action={async (contract) => contract.call("myFunctionName")}>
+</Web3Button>
+</ThirdwebProvider>
+}      
+           
 </div> 
         
      );
