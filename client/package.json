@@ -6,9 +6,9 @@
     "@material-tailwind/react": "^2.0.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@thirdweb-dev/react": "^3.12.2",
-    "@thirdweb-dev/sdk": "^3.10.17",
+    "@testing-library/user-event": "^14.4.3",
+    "@thirdweb-dev/react": "^3.9.0",
+    "@thirdweb-dev/sdk": "^3.10.19",
     "apexcharts": "^3.40.0",
     "dayjs": "^1.11.7",
     "ethers": "^5.7.2",
@@ -46,6 +46,8 @@
     ]
   },
   "devDependencies": {
+    "assert": "^2.0.0",
+    "stream": "^0.0.2",
     "tailwindcss": "^3.3.2"
   }
 }

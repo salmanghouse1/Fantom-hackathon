@@ -4,11 +4,18 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from "@material-tailwind/react";
+import { ThirdwebProvider} from "@thirdweb-dev/react";
 
+const activeChain = "ethereum";
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+
 root.render(
   <React.StrictMode>
+    <ThirdwebProvider activeChain={activeChain}>
+
     <App />
+    </ThirdwebProvider>
   </React.StrictMode>
 );
 
