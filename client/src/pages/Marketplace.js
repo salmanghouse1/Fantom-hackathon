@@ -22,6 +22,7 @@ import ApexChartGraphComp from '../components/Graph';
 
 
 
+
 function MarketPlace(){
   
   
@@ -494,8 +495,12 @@ function MarketPlace(){
 <Input></Input>
 <label>Price</label>
 <Input></Input>
-<Button>Buy</Button>
-
+<Web3Button
+      contractAddress="{{contract_address}}"
+      action={async (contract) => contract.call("myFunctionName")}
+    >
+    Buy
+    </Web3Button>
 </div>
 <div id="sell" style={{display:"flex",flexDirection:"column"}}>
 <h3>Sell</h3>
@@ -505,7 +510,12 @@ function MarketPlace(){
 <Input></Input>
 <label>Price</label>
 <Input></Input>
-<Button>Sell</Button>
+  <Web3Button
+      contractAddress="{{contract_address}}"
+      action={async (contract) => contract.call("myFunctionName")}
+      >
+      Sell
+    </Web3Button>
 
 </div>
 
