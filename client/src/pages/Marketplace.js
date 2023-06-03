@@ -5,6 +5,7 @@ import React,{Component} from 'react';
 import ComplexNavbar from "../components/Header";
 import "../App.css";
 import { Web3Button,ThirdwebProvider,ChainId, ConnectWallet,useConnect, metamaskWallet } from "@thirdweb-dev/react";
+import { useAddress } from "@thirdweb-dev/react";
 
 import dayjs from 'dayjs' 
 // import ReactApexChart from "react-apexcharts";
@@ -23,8 +24,10 @@ import ApexChartGraphComp from '../components/Graph';
 
 
 
+
+
 function MarketPlace(){
-  
+const address = useAddress();
   
   
 // const desiredChainId=ChainId.Fantom;
@@ -391,6 +394,8 @@ function MarketPlace(){
 <ApexChartGraphComp></ApexChartGraphComp>
 <ConnectWallet dropdownPosition={{ side: 'bottom', align: 'center'}} />
 
+{
+!address?<div>No wallet connected</div>:<div>My wallet address is {address}</div>}
 </div>
 
 

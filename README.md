@@ -11,7 +11,7 @@ As A User I want to be able to trade Fantom Coin with others(set my bid price), 
 Planning to use
 
 React
-Solidity
+Solidity // SPDX-License-Identifier: GPL-3.0 pragma solidity >=0.4.16 <0.9.0;
 Express
 Third Web SDK
 web three.js
