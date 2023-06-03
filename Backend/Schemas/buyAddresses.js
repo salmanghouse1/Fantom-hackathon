@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
 const buyAddresses = new Schema({
-    addresses:[String],
+    address:String,
   });
 
 
