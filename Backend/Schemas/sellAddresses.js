@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
 const sellAddresses = new Schema({
-    addresses:[String],
+    address:String,
+    isConnected:Boolean
   });
 
 
