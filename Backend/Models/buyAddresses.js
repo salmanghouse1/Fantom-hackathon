@@ -3,6 +3,7 @@ const { Schema, model } = mongoose;
 
 const buyAddresses = new Schema({
     address:String,
+    isConnected:Boolean
   });
 
 

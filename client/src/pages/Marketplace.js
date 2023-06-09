@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React,{Component, useState} from 'react';
 // import '.././App.css';
 // import Lottie from 'react-lottie';
 // import Particles from 'react-particles-js';
@@ -6,11 +6,14 @@ import ComplexNavbar from "../components/Header";
 import "../App.css";
 import { Web3Button,ThirdwebProvider,ChainId, ConnectWallet,useConnect, metamaskWallet } from "@thirdweb-dev/react";
 import { useAddress } from "@thirdweb-dev/react";
-
+import { ThemeProvider } from "@material-tailwind/react";
+import { Polygon } from "@thirdweb-dev/chains";
 import dayjs from 'dayjs' 
 // import ReactApexChart from "react-apexcharts";
 // import { ApexOptions } from "apexcharts";
 import Chart from 'react-apexcharts';
+import helloWorldabi from './../abi/helloWorld.json';
+
 // import ApexChartGraphComp from '../components/Graph';
 import {
     Button,
@@ -20,7 +23,7 @@ import {
   } from "@material-tailwind/react";
 import { useContractRead, useContract } from "@thirdweb-dev/react";
 import ApexChartGraphComp from '../components/Graph';
-
+import ChooseToken from './chooseToken';
 
 
 
@@ -28,7 +31,7 @@ import ApexChartGraphComp from '../components/Graph';
 
 function MarketPlace(){
 const address = useAddress();
-  
+
   
 // const desiredChainId=ChainId.Fantom;
 
@@ -336,12 +339,43 @@ const address = useAddress();
 // };
 // var nextScreen=false;
 
+const activeChain="ethereum";
+const [buyAmount,setBuyAmount]=useState(null);
+const [sellAmount,setSellAmount]=useState(null);
+const [buyPrice,setBuyPrice]=useState(null);
+const [sellPrice,setSellPrice]=useState(null);
+let buyAddressesArray=[];
+let buyAddressesAmountArray=[];
+let buyAddressesPriceArray=[];
+let Price = null;
 
+
+const handleChangeBuyAmount = (event) => {
+  setBuyAmount(event.target.value);
+};
+
+
+const handleChangeSellAmount = (event) => {
+  setSellAmount(event.target.value);
+};
+
+
+const handleChangeSellPrice = (event) => {
+  setSellPrice(event.target.value);
+};
+
+
+const handleChangeBuyPrice = (event) => {
+  setBuyPrice(event.target.value);
+};
 
     return ( 
         
         
         <>
+        <ThirdwebProvider activeChain={activeChain}>
+{!address?<div><h2>Make Sure to connect waller</h2></div>:<ChooseToken/>}
+
 <div>
 <div style={{display:'flex'}}>
 <div style={{flex:'300px'}}>
@@ -395,7 +429,7 @@ const address = useAddress();
 <ConnectWallet dropdownPosition={{ side: 'bottom', align: 'center'}} />
 
 {
-!address?<div>No wallet connected</div>:<div>My wallet address is {address}</div>}
+  !address?<div>No wallet connected</div>:<div>My wallet address is {address}</div>}
 </div>
 
 
@@ -493,16 +527,23 @@ const address = useAddress();
 </div>
 <div style={{flex:'300px',display:"flex",flexDirection:"row"}}>
 <div id="buy" style={{display:"flex",flexDirection:"column"}}>
+<h3>Your Token Name:{}</h3>
+
 <h3>Buy</h3>
 <label>Price</label>
-<Input></Input>
+<Input value={value} onChange={handleChangeBuyPrice}></Input>
 <label>Amount</label>
-<Input></Input>
+<Input  value={value} onChange={handleChangeBuyAmount}></Input>
 <label>Price</label>
 <Input></Input>
+
 <Web3Button
       contractAddress="{{contract_address}}"
-      action={async (contract) => contract.call("myFunctionName")}
+      action={async (contract) => {contract.call("buyRequest",[address,buyAmount,buyPrice])
+      buyAddressesArray.push(address);
+      buyAddressesAmountArray.push(buyAmount());
+    buyAddressesPriceArray.push(buyPrice());
+    }}
     >
     Buy
     </Web3Button>
@@ -510,14 +551,14 @@ const address = useAddress();
 <div id="sell" style={{display:"flex",flexDirection:"column"}}>
 <h3>Sell</h3>
 <label>Price</label>
-<Input></Input>
+<Input  value={value} onChange={handleChangeSellPrice}></Input>
 <label>Amount</label>
-<Input></Input>
+<Input  value={value} onChange={handleChangeSellAmount}></Input>
 <label>Price</label>
 <Input></Input>
   <Web3Button
       contractAddress="{{contract_address}}"
-      action={async (contract) => contract.call("myFunctionName")}
+      action={async (contract) => contract.call("sellRequest",[address,sellAmount,sellPrice])}
       >
       Sell
     </Web3Button>
@@ -529,6 +570,7 @@ const address = useAddress();
 
 </div></div>
 </div> 
+        </ThirdwebProvider>        
 
 
         </>

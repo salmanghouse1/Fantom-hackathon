@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "apexcharts": "^3.40.0"
+  },
+  "devDependencies": {
+    "hardhat": "^2.15.0"
   }
 }
