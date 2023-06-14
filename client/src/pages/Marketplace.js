@@ -1,42 +1,56 @@
+
 import React,{Component, useState} from 'react';
+import {
+  Button,
+  IconButton,
+  Card,
+  Input
+} from "@material-tailwind/react";
 // import '.././App.css';
 // import Lottie from 'react-lottie';
 // import Particles from 'react-particles-js';
 import ComplexNavbar from "../components/Header";
 import "../App.css";
-import { Web3Button,ThirdwebProvider,ChainId, ConnectWallet,useConnect, metamaskWallet } from "@thirdweb-dev/react";
-import { useAddress } from "@thirdweb-dev/react";
+import { Web3Button,ThirdwebProvider,ChainId,useAddress, ConnectWallet,useConnect, metamaskWallet ,useContractRead, useContract} from "@thirdweb-dev/react";
+
 import { ThemeProvider } from "@material-tailwind/react";
 import { Polygon } from "@thirdweb-dev/chains";
 import dayjs from 'dayjs' 
+
 // import ReactApexChart from "react-apexcharts";
 // import { ApexOptions } from "apexcharts";
 import Chart from 'react-apexcharts';
 import helloWorldabi from './../abi/helloWorld.json';
-
-// import ApexChartGraphComp from '../components/Graph';
-import {
-    Button,
-    IconButton,
-    Card,
-    Input
-  } from "@material-tailwind/react";
-import { useContractRead, useContract } from "@thirdweb-dev/react";
 import ApexChartGraphComp from '../components/Graph';
 import ChooseToken from './chooseToken';
+import Sellers from '../components/Sellers';
+import Buyers from '../components/Buyers';
+
+
+// import ApexChartGraphComp from '../components/Graph';
 
 
 
 
+const contractAddress = "0xa52DcE2FF76Dd159b1B98F40c1239eD332a91f55";
 
 function MarketPlace(){
+
+
 const address = useAddress();
 
-  
+const [value1,setValue1]=useState('');
+
+const [value2,setValue2]=useState('');
+
+const [value3,setValue3]=useState('');
+
+const [value4,setValue4]=useState('');
 // const desiredChainId=ChainId.Fantom;
 
   // ThirdwebSDK sdk = new ThirdwebSDK("ethereum");
-
+  const { contract } = useContract(contractAddress);
+  const { data, isLoading, error } = useContractRead(contract, "getMessage");
 
 // const { data: contract } = useContract("{{contract_address}}");
 // const { data, isLoading, error } = useContractRead(contract, "functionName");
@@ -338,8 +352,10 @@ const address = useAddress();
 //   ]
 // };
 // var nextScreen=false;
-
-const activeChain="ethereum";
+if (error) {
+  console.error("failed to read contract", error);
+}
+const activeChain="fantom-testnet";
 const [buyAmount,setBuyAmount]=useState(null);
 const [sellAmount,setSellAmount]=useState(null);
 const [buyPrice,setBuyPrice]=useState(null);
@@ -373,9 +389,16 @@ const handleChangeBuyPrice = (event) => {
         
         
         <>
-        <ThirdwebProvider activeChain={activeChain}>
+        <div>{isLoading ? <p>Loading...</p> : <p>Contract Name: {data}</p>}</div>
 {!address?<div><h2>Make Sure to connect waller</h2></div>:<ChooseToken/>}
 
+  {!isLoading?<h1>{data}</h1>:<h1>Loading....{data}</h1>}
+{console.log(data)}
+{/* try(data){
+console.log(data.message)
+}catch(error){
+console.log(error)
+} */}
 <div>
 <div style={{display:'flex'}}>
 <div style={{flex:'300px'}}>
@@ -435,6 +458,7 @@ const handleChangeBuyPrice = (event) => {
 
 
 <div style={{flex:'300px'}}>
+  <Buyers></Buyers>
 <div class="divTableRow">
 <div class="divTableCell">Price</div>
 <div class="divTableCell">Amount</div>
@@ -482,45 +506,61 @@ const handleChangeBuyPrice = (event) => {
 <div style={{display:'flex'}}>
 
 <div style={{flex:'300px'}}>
+  <Sellers></Sellers>
 <div class="divTableRow">
 <div class="divTableCell">Price</div>
 <div class="divTableCell">Amount</div>
 <div class="divTableCell">Time</div>
+<div class="divTableCell">Seller</div>
 </div>
 {/* The Rows bellow needs to be mapped, the smart contract or thirdweb sdk needs to getWallets */}
 <div class="divTableRow">
 <div class="divTableCell">&nbsp;</div>
 <div class="divTableCell">&nbsp;</div>
 <div class="divTableCell">&nbsp;</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
+
 <div class="divTableCell">&nbsp;</div>
 </div>
 <div class="divTableRow">
 <div class="divTableCell">&nbsp;</div>
 <div class="divTableCell">&nbsp;</div>
 <div class="divTableCell">&nbsp;</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
+
 <div class="divTableCell">&nbsp;</div>
 </div>
 <div class="divTableRow">
 <div class="divTableCell">&nbsp;</div>
 <div class="divTableCell">&nbsp;</div>
 <div class="divTableCell">&nbsp;</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
+
 <div class="divTableCell">&nbsp;</div>
 </div>
 <div class="divTableRow">
 <div class="divTableCell">&nbsp;</div>
 <div class="divTableCell">&nbsp;</div>
+<div class="divTableCell">&nbsp;</div>
+
+<div class="divTableCell">&nbsp;</div>
+</div>
+<div class="divTableRow">
+<div class="divTableCell">&nbsp;</div>
+<div class="divTableCell">&nbsp;</div>
+<div class="divTableCell">&nbsp;</div>
+
+<div class="divTableCell">&nbsp;</div>
+</div>
+<div class="divTableRow">
+<div class="divTableCell">&nbsp;</div>
+<div class="divTableCell">&nbsp;</div>
+<div class="divTableCell">&nbsp;</div>
+
+<div class="divTableCell">&nbsp;</div>
+</div>
+<div class="divTableRow">
+<div class="divTableCell">&nbsp;</div>
+<div class="divTableCell">&nbsp;</div>
+<div class="divTableCell">&nbsp;</div>
+
 <div class="divTableCell">&nbsp;</div>
 </div>
 
@@ -530,32 +570,43 @@ const handleChangeBuyPrice = (event) => {
 <h3>Your Token Name:{}</h3>
 
 <h3>Buy</h3>
+{buyPrice}
 <label>Price</label>
-<Input value={value} onChange={handleChangeBuyPrice}></Input>
+<Input type="number" value={buyPrice} onChange={handleChangeBuyPrice}></Input>
+{buyAmount}
 <label>Amount</label>
-<Input  value={value} onChange={handleChangeBuyAmount}></Input>
-<label>Price</label>
-<Input></Input>
+<Input type="number" value={buyAmount} onChange={handleChangeBuyAmount}></Input>
 
 <Web3Button
-      contractAddress="{{contract_address}}"
-      action={async (contract) => {contract.call("buyRequest",[address,buyAmount,buyPrice])
-      buyAddressesArray.push(address);
-      buyAddressesAmountArray.push(buyAmount());
-    buyAddressesPriceArray.push(buyPrice());
+      contractAddress={contractAddress}
+      action={(contract) => {contract.call("setMessage",["Hello Salman"])
+    //   buyAddressesArray.push(address);
+    //   buyAddressesAmountArray.push(buyAmount());
+    // buyAddressesPriceArray.push(buyPrice());
     }}
     >
     Buy
     </Web3Button>
+    <Web3Button
+      contractAddress={contractAddress}
+      action={(contract) => {contract.call("getMessage",["Hello Salman"])
+    //   buyAddressesArray.push(address);
+    //   buyAddressesAmountArray.push(buyAmount());
+    // buyAddressesPriceArray.push(buyPrice());
+    }}
+    >
+    Buy
+    </Web3Button>
+    {data}
 </div>
 <div id="sell" style={{display:"flex",flexDirection:"column"}}>
 <h3>Sell</h3>
-<label>Price</label>
-<Input  value={value} onChange={handleChangeSellPrice}></Input>
-<label>Amount</label>
-<Input  value={value} onChange={handleChangeSellAmount}></Input>
-<label>Price</label>
-<Input></Input>
+<label>Price{sellPrice}</label>
+
+<Input type="number" value={sellPrice} onChange={handleChangeSellPrice}></Input>
+<label>Amount{sellAmount}</label>
+<Input type="number" value={sellAmount} onChange={handleChangeSellAmount}></Input>
+
   <Web3Button
       contractAddress="{{contract_address}}"
       action={async (contract) => contract.call("sellRequest",[address,sellAmount,sellPrice])}
@@ -570,7 +621,7 @@ const handleChangeBuyPrice = (event) => {
 
 </div></div>
 </div> 
-        </ThirdwebProvider>        
+   
 
 
         </>

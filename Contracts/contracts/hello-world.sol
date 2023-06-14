@@ -1,15 +1,18 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract helloworld{
+contract HelloWorld {
+    string public message;
 
-event MessageLogged(string message);
-
-
-    
-
-    function setMessage(string memory newMessage) public {
-        
-        emit MessageLogged(newMessage);
+    constructor() {
+        message = "Hello, World!";
     }
 
+    function getMessage() public view returns (string memory) {
+        return message;
+    }
+
+    function setMessage(string memory newMessage) public {
+        message = newMessage;
+    }
 }

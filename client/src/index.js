@@ -10,13 +10,13 @@ import { Polygon } from "@thirdweb-dev/chains";
 // const activeChain = "ethereum";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-
+const activeChain="fantom-testnet";
 root.render(
   <React.StrictMode>
     
-
+    <ThirdwebProvider activeChain={activeChain}>
     <App />
-    {/* </ThirdwebProvider> */}
+    </ThirdwebProvider>
   </React.StrictMode>
 );
 
