@@ -35,7 +35,9 @@ import Buyers from '../components/Buyers';
 const contractAddress = "0xa52DcE2FF76Dd159b1B98F40c1239eD332a91f55";
 
 function MarketPlace(){
+const [buyStatus,setBuyStatus]=useState(false);
 
+const [sellStatus,setSellStatus]=useState(false);
 
 const address = useAddress();
 
@@ -576,27 +578,37 @@ console.log(error)
 {buyAmount}
 <label>Amount</label>
 <Input type="number" value={buyAmount} onChange={handleChangeBuyAmount}></Input>
-
+{!buyStatus?
 <Web3Button
-      contractAddress={contractAddress}
-      action={(contract) => {contract.call("setMessage",["Hello Salman"])
+      contractAddress={contractAddressBuyer}
+      action={(contract) => {contract.call("addWalletAddress",[{address}]).then(()=>{
+        setBuyStatus(true);
+
+      })
     //   buyAddressesArray.push(address);
     //   buyAddressesAmountArray.push(buyAmount());
     // buyAddressesPriceArray.push(buyPrice());
-    }}
+  }}
     >
     Buy
     </Web3Button>
-    <Web3Button
-      contractAddress={contractAddress}
-      action={(contract) => {contract.call("getMessage",["Hello Salman"])
+    :<Web3Button
+      contractAddress={contractAddressBuyer}
+      action={(contract) => {
+        contract.call("removeWalletAddress",[{address}]).then(()=>{
+          setBuyStatus(false)
+        })
+         
+
+      }
     //   buyAddressesArray.push(address);
     //   buyAddressesAmountArray.push(buyAmount());
     // buyAddressesPriceArray.push(buyPrice());
-    }}
+  }
     >
-    Buy
+    Cancel
     </Web3Button>
+    }
     {data}
 </div>
 <div id="sell" style={{display:"flex",flexDirection:"column"}}>
@@ -606,14 +618,30 @@ console.log(error)
 <Input type="number" value={sellPrice} onChange={handleChangeSellPrice}></Input>
 <label>Amount{sellAmount}</label>
 <Input type="number" value={sellAmount} onChange={handleChangeSellAmount}></Input>
-
+{!sellStatus?
   <Web3Button
-      contractAddress="{{contract_address}}"
-      action={async (contract) => contract.call("sellRequest",[address,sellAmount,sellPrice])}
+      contractAddress="contractAddressSeller"
+      action={async (contract) => {contract.call("addWalletAddress",[address,sellAmount,sellPrice])
+    setSellStatus(true)
+    }}
       >
       Sell
     </Web3Button>
-
+    :
+    <Web3Button
+      contractAddress={contractAddressSeller}
+      action={(contract) => {contract.call("removeWalletAddress",[{address}]).then(()=>{
+        setSellStatus(false)
+    
+      })
+      //   buyAddressesArray.push(address);
+    //   buyAddressesAmountArray.push(buyAmount());
+    // buyAddressesPriceArray.push(buyPrice());
+    }}
+    >
+    Cancel
+    </Web3Button>
+}
 </div>
 
 </div><div style={{flex:'300px'}}> 
