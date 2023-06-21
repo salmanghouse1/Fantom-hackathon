@@ -8,7 +8,7 @@ interface IERC20 {
     function allowance(address owner, address spender) external view returns (uint256);
 }
 
-contract WalletAddressStorageContract {
+contract WalletAddressStorageContractSeller {
     address[] public walletAddresses;
 
     event WalletAddressAdded(address indexed walletAddress);

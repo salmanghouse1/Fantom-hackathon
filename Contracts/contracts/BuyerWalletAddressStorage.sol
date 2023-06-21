@@ -9,23 +9,26 @@ interface IERC20 {
     function allowance(address owner, address spender) external view returns (uint256);
 }
 
-contract WalletAddressStorageContract {
+contract WalletAddressStorageContractBuyer {
     address[] public walletAddresses;
 
-    event WalletAddressAdded(address indexed walletAddress);
+
+   
+
+    event WalletAddressAdded(address walletAddress);
     event WalletAddressRemoved(address removeWalletAddress);
 
     int newQuantity;
 
 
     // Add a wallet address to the array
-    function addWalletAddress(address _walletAddress) external {
+    function addWalletAddress(address _walletAddress) external returns (address){
         require(_walletAddress != address(0), "Invalid wallet address");
 
         walletAddresses.push(_walletAddress);
-
         // Emit event
         emit WalletAddressAdded(_walletAddress);
+        return _walletAddress;
     }
 function removeWalletAddress(address _walletAddress) external {
         require(_walletAddress != address(0), "Invalid wallet address");
