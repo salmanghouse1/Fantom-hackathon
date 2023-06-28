@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
+import "hardhat/console.sol";
 
 
 interface IERC20 {
@@ -12,8 +13,7 @@ interface IERC20 {
 contract WalletAddressStorageContractBuyer {
     address[] public walletAddresses;
 
-
-   
+  
 
     event WalletAddressAdded(address walletAddress);
     event WalletAddressRemoved(address removeWalletAddress);
@@ -24,9 +24,10 @@ contract WalletAddressStorageContractBuyer {
     // Add a wallet address to the array
     function addWalletAddress(address _walletAddress) external returns (address){
         require(_walletAddress != address(0), "Invalid wallet address");
-
+      
         walletAddresses.push(_walletAddress);
         // Emit event
+        for (uint8 ione = 0; ione < walletAddresses.length; ione++) { console.log("addresses in list updated:",walletAddresses[ione]); }
         emit WalletAddressAdded(_walletAddress);
         return _walletAddress;
     }
@@ -37,16 +38,18 @@ function removeWalletAddress(address _walletAddress) external {
             if (walletAddresses[i] == _walletAddress) {
                 walletAddresses[i] = walletAddresses[walletAddresses.length - 1];
                 walletAddresses.pop();
-
                 // Emit event
                 emit WalletAddressRemoved(_walletAddress);
-
+                
                 break;
             }
+for (uint8 itwo = 0; itwo < walletAddresses.length; itwo++) { console.log("addresses after removing",walletAddresses[itwo]); }
+
         }
     }
     // Get the total number of wallet addresses stored
     function getWalletAddressCount() external view returns (uint256) {
+   
         return walletAddresses.length;
     }
 
@@ -57,6 +60,7 @@ function removeWalletAddress(address _walletAddress) external {
         return walletAddresses[_index];
     }
     function getAllWalletAddresses() external view returns (address[] memory) {
+        
         return walletAddresses;
     }
 
@@ -142,5 +146,5 @@ function removeWalletAddress(address _walletAddress) external {
         require(token.transferFrom(msg.sender, walletAddressToDeposit,_quantity));
 }
 
-
+// Bellow is good code
 }
