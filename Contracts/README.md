@@ -7,7 +7,7 @@ Try running some of the following tasks:
 To Deploy contracts:
 * npx hardhat run --network testnet scripts/deploy.js
 
-
+or go to:https://github.com/Fantom-foundation/example-deployment
 
 Buyer1 deployed to:0x281F36D0B27AE554720fb3250646082631010D5A
 contract2 deployed to:0x76951647E998F4802ECfB1A3ACADc27400Dfe074
