@@ -24,3 +24,9 @@ contract4 deployed to:0x006E132e20Fd8D38689323216863C7c20dc54761
 check https://ethereum.stackexchange.com/questions/3609/returning-a-struct-and-reading-via-web3/3614#3614
 
 for returning multiple type array in smart contracts, pop and push wont work
+
+contract1 deployed to:0x57Bf94f2b52A441E040A3874F1e553d373A9de95
+contract2 deployed to:0x8EF26aDdCe35A7Bc45288b5f05c4A9312EA94E3D
+contract3 deployed to:0x5edeD43ed690c3fe61E166908A811B2613C1e6AA
+contract4 deployed to:0xe3f3be633221957ca563A1cd8Cdf4cA9c50793F9
+contract4 deployed to:0x3767f0e38F85c65482844be1f54bB3573a8524BC

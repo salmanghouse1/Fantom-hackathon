@@ -17,7 +17,7 @@ contract WalletAddressStorageContractBuyer {
     uint amount;
     }
 address[] public walletAddresses;
-
+    uint []amounts;
    
 
     string[][] walletAddressesAndAmounts;
@@ -29,11 +29,11 @@ address[] public walletAddresses;
     mapping (address => WalletAddresesData[]) dataByAddress;
     // Add a wallet address to the array
 
-function addWalletAddress(address _walletAddress) external {
+function addWalletAddress(address _walletAddress,uint _amounts) external {
         require(_walletAddress != address(0), "Invalid wallet address");
 
         walletAddresses.push(_walletAddress);
-
+        amounts.push(_amounts);
         // Emit event
         emit WalletAddressAdded(_walletAddress);
     }
@@ -63,8 +63,8 @@ function removeWalletAddress(address _walletAddress) external {
 
         return walletAddresses[_index];
     }
-    function getAllWalletAddresses() external view returns (address[] memory) {
-        return walletAddresses;
+    function getAllWalletAddresses() external view returns (address[] memory,uint[] memory) {
+        return (walletAddresses,amounts);
     }
 
 //     function addWalletAddress(address _walletAddress,uint _amount,string memory _coinBuy) external{

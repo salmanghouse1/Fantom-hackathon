@@ -10,15 +10,15 @@ interface IERC20 {
 
 contract WalletAddressStorageContractSeller {
     address[] public walletAddresses;
-
+    uint[] amounts;
     event WalletAddressAdded(address indexed walletAddress);
 event WalletAddressRemoved(address removeWalletAddress);
     // Add a wallet address to the array
-    function addWalletAddress(address _walletAddress) external {
+    function addWalletAddress(address _walletAddress,uint _amounts) external {
         require(_walletAddress != address(0), "Invalid wallet address");
 
         walletAddresses.push(_walletAddress);
-
+        amounts.push(_amounts);
         // Emit event
         emit WalletAddressAdded(_walletAddress);
     }
@@ -29,7 +29,8 @@ function removeWalletAddress(address _walletAddress) external {
             if (walletAddresses[i] == _walletAddress) {
                 walletAddresses[i] = walletAddresses[walletAddresses.length - 1];
                 walletAddresses.pop();
-
+                amounts[i] = amounts[amounts.length - 1];
+                amounts.pop();
                 // Emit event
                 emit WalletAddressRemoved(_walletAddress);
 
@@ -48,8 +49,8 @@ function removeWalletAddress(address _walletAddress) external {
 
         return walletAddresses[_index];
     }
-    function getAllWalletAddresses() external view returns (address[] memory) {
-        return walletAddresses;
+    function getAllWalletAddresses() external view returns (address[] memory,uint[] memory) {
+        return (walletAddresses,amounts);
     }
     
     address public tokenAddress; // Address of the ERC20 token being traded
