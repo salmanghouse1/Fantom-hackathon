@@ -26,13 +26,27 @@ function Buyers(){
 <div class="divTableCell">Buyer</div>
 </div>
 {/* The Rows bellow needs to be mapped, the smart contract or thirdweb sdk needs to getWallets */}
-{isLoading?<p>Is Loading</p>:data.walletAddresses.map((buyAddress)=>{
+{isLoading?<p>Is Loading</p>:data.map((buyAddress)=>{
     <div class="divTableRow">
 <div class="divTableCell">&nbsp;</div>
 <div class="divTableCell">&nbsp;</div>
 <div class="divTableCell">&nbsp;</div>
 
-<div class="divTableCell">{buyAddress}</div>
+<div class="divTableCell">{buyAddress}<Web3Button
+      contractAddress={"0x006E132e20Fd8D38689323216863C7c20dc54761"}
+      action={(contract) => {
+        
+        contract.call("sellTokens",[buyAddress.walletAddresses,buyAddress.amounts])
+        setBuyStatus(true);
+
+      
+    //   buyAddressesArray.push(address);
+    //   buyAddressesAmountArray.push(buyAmount());
+    // buyAddressesPriceArray.push(buyPrice());
+  }}
+    >
+    Swap
+    </Web3Button></div>
 </div>
 
 })}

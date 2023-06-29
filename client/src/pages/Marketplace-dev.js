@@ -212,9 +212,9 @@ const handleChange=(event)=>{
 {!buyStatus?
 <Web3Button
       contractAddress={""}
-      action={(contract) => {contract.call("addWalletAddress",[{address}]).then(()=>{
+      action={(contract) => {contract.call("addWalletAddress",[address,buyAmount]).then(()=>{
         
-        contract.call("buyTokens",[selectedSeller,selectedSellerQuantity])
+        // contract.call("buyTokens",[selectedSeller,selectedSellerQuantity])
         setBuyStatus(true);
 
       })
@@ -225,7 +225,7 @@ const handleChange=(event)=>{
     >
     Buy
     </Web3Button>
-    :<h2>Please Check Your Wallet Soon...</h2>
+    :<h2>Added to Buy List Please Check Your Wallet Soon...</h2>
     }
    
 </div>
@@ -241,15 +241,15 @@ const handleChange=(event)=>{
       contractAddress="0x76951647E998F4802ECfB1A3ACADc27400Dfe074"
       action={async (contract) => {
         alert("request sent")
-        await contract.call("addWalletAddress",[{address}]);
-        await contract.call("sellTokens",[selectedBuyer,selectedQuantity]).then(()=>setSellStatus(true))
+        await contract.call("addWalletAddress",[address,sellPrice]);
+        // await contract.call("sellTokens",[selectedBuyer,selectedQuantity]).then(()=>setSellStatus(true))
           
         }}
       >
       Sell
     </Web3Button>
     :
-    <h2>Your Sell Request will finsih soon check your</h2>
+    <h2>Added to sell list Your Sell Request will finsih soon check your</h2>
     // <Web3Button
     //   contractAddress="contractAddressSeller"
     //   action={(contract) => {contract.call("removeWalletAddress",[{address}]).then(()=>{

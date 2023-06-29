@@ -2,6 +2,12 @@
   text-align: center;
 }
 
+.btn{
+  height:15px;
+  font-size: 14px;
+  padding:1em;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
