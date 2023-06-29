@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 import "hardhat/console.sol";
-
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 interface IERC20 {
     function transfer(address recipient, uint256 amount) external returns (bool);
@@ -11,25 +11,31 @@ interface IERC20 {
 }
 
 contract WalletAddressStorageContractBuyer {
-    address[] public walletAddresses;
 
-  
+    struct WalletAddresesData{
+    string coinBuy;
+    uint amount;
+    }
+address[] public walletAddresses;
 
+   
+
+    string[][] walletAddressesAndAmounts;
     event WalletAddressAdded(address walletAddress);
     event WalletAddressRemoved(address removeWalletAddress);
-
+    string convertAddress;
     int newQuantity;
-
-
+ 
+    mapping (address => WalletAddresesData[]) dataByAddress;
     // Add a wallet address to the array
-    function addWalletAddress(address _walletAddress) external returns (address){
+
+function addWalletAddress(address _walletAddress) external {
         require(_walletAddress != address(0), "Invalid wallet address");
-      
+
         walletAddresses.push(_walletAddress);
+
         // Emit event
-        for (uint8 ione = 0; ione < walletAddresses.length; ione++) { console.log("addresses in list updated:",walletAddresses[ione]); }
         emit WalletAddressAdded(_walletAddress);
-        return _walletAddress;
     }
 function removeWalletAddress(address _walletAddress) external {
         require(_walletAddress != address(0), "Invalid wallet address");
@@ -38,18 +44,16 @@ function removeWalletAddress(address _walletAddress) external {
             if (walletAddresses[i] == _walletAddress) {
                 walletAddresses[i] = walletAddresses[walletAddresses.length - 1];
                 walletAddresses.pop();
+
                 // Emit event
                 emit WalletAddressRemoved(_walletAddress);
-                
+
                 break;
             }
-for (uint8 itwo = 0; itwo < walletAddresses.length; itwo++) { console.log("addresses after removing",walletAddresses[itwo]); }
-
         }
     }
     // Get the total number of wallet addresses stored
     function getWalletAddressCount() external view returns (uint256) {
-   
         return walletAddresses.length;
     }
 
@@ -60,9 +64,51 @@ for (uint8 itwo = 0; itwo < walletAddresses.length; itwo++) { console.log("addre
         return walletAddresses[_index];
     }
     function getAllWalletAddresses() external view returns (address[] memory) {
-        
         return walletAddresses;
     }
+
+//     function addWalletAddress(address _walletAddress,uint _amount,string memory _coinBuy) external{
+//         require(_walletAddress != address(0), "Invalid wallet address");
+//         WalletAddresesData memory locker = WalletAddresesData(_coinBuy,_amount);
+//         dataByAddress[msg.sender].push(locker);
+//         // convertAddress=_walletAddress.toString();
+//         // walletAddressesAndAmounts.push(convertAddress,_amount);
+//         // walletAddresses.push(_walletAddress.toString(),_amount.toString());
+//         // Emit event
+//         // emit WalletAddressAdded(_walletAddress);
+//     }
+// function removeWalletAddress(address _walletAddress,uint _index) external {
+//         require(_walletAddress != address(0), "Invalid wallet address");
+
+//         delete dataByAddress[msg.sender];
+
+//         // for (uint256 i = 0; i < walletAddresses.length; i++) {
+//             // if (walletaddresses[i] == _walletAddress) {
+//             //     walletaddresses[i] = walletaddresses[walletAddresses.length - 1];
+//             //     walletaddresses.pop();
+//                 // Emit event
+//                 emit WalletAddressRemoved(_walletAddress);
+                
+//             }
+// // for (uint8 itwo = 0; itwo < walletAddresses.length; itwo++) { console.log("addresses after removing",walletAddresses[itwo]); }
+
+// //         }
+    
+//     // Get the total number of wallet addresses stored
+//     // function getWalletAddressCount() external view returns (uint) {
+//     //     uint returnData=addHolder.length;
+//     //     return returnData;
+//     // }
+
+
+//     function getUser(uint _index) public returns(string memory, uint) {
+//         return (dataByAddress[msg.sender].coinBuy, dataByAddress[msg.sender].amount);
+//     }
+
+//     function getAllWalletAddresses() external view returns (address[] memory) {
+        
+//         return dataByAddress;
+//     }
 
 
     address public tokenAddress; // Address of the ERC20 token being traded

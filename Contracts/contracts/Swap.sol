@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract FTMtoUSDT {
-    address private constant FTM_ADDRESS = 0x...;  // Replace with the FTM token contract address
-    address private constant USDT_ADDRESS = 0x...; // Replace with the USDT token contract address
+    address private constant FTM_ADDRESS = 0x4E15361FD6b4BB609Fa63C81A2be19d873717870;  // Replace with the FTM token contract address
+    address private constant USDT_ADDRESS = 0xdAC17F958D2ee523a2206206994597C13D831ec7; // Replace with the USDT token contract address
     
     IERC20 private ftmToken;
     IERC20 private usdtToken;
