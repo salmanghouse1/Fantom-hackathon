@@ -23,10 +23,11 @@ import ApexChartGraphComp from '../components/Graph';
 import ChooseToken from './chooseToken';
 import Sellers from '../components/Sellers';
 import Buyers from '../components/Buyers';
+import BuyerModule from "../components/BuyerModule";
 
 
 
-const sdk = new ThirdwebSDK("fantom-testnet");
+
 
 
 // comment out line 29
@@ -34,8 +35,13 @@ const sdk = new ThirdwebSDK("fantom-testnet");
 // const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 function MarketPlace(){
   const [ isDarkMode, setIsDarkMode ] = useState(true);
+  
+  const [sdkChain,setSdkChain]= useState("fantom-testnet");
+  
+  const sdk = new ThirdwebSDK(sdkChain);
 
-const [chosenPair,setChosenPair]=useState("FTMUSD")
+const [chosenPair,setChosenPair]=useState("FTMUSD");
+const [chosenPair2,setChosenPair2]=useState("FTMUSD");
 
 const [buyStatus,setBuyStatus]=useState(false);
 
@@ -67,8 +73,11 @@ const {contract2}=useContract("0x87f23361137baE1351191d2aD799b3f081fbc8dd");
 // var nextScreen = await sdk.wallet.IsConnected();
 
 
-const activeChain="fantom-testnet";
 const [buyAmount,setBuyAmount]=useState(null);
+
+const [returnAmount,setReturnAmount]=useState(null);
+const [returnAmount2,setReturnAmount2]=useState(null);
+
 const [sellAmount,setSellAmount]=useState(null);
 const [buyPrice,setBuyPrice]=useState(null);
 const [sellPrice,setSellPrice]=useState(null);
@@ -78,10 +87,18 @@ let buyAddressesPriceArray=[];
 let Price = null;
 
 
+const handleChangeReturnAmount = (event) => {
+  setReturnAmount(event.target.value);
+};
+
+
+const handleChangeReturnAmount2 = (event) => {
+  setReturnAmount2(event.target.value);
+};
+
 const handleChangeBuyAmount = (event) => {
   setBuyAmount(event.target.value);
 };
-
 
 const handleChangeSellAmount = (event) => {
   setSellAmount(event.target.value);
@@ -101,6 +118,13 @@ const handleChange=(event)=>{
   setChosenPair(event.target.value)
 }
 
+const handleChange2=(event)=>{
+  setChosenPair2(event.target.value)
+}
+
+const handleChangeSDK=(event)=>{
+  setSdkChain(event.target.value)
+}
 
     return ( 
         
@@ -111,86 +135,40 @@ const handleChange=(event)=>{
 {!address?<div><h2>Make Sure to connect wallet</h2></div>:<ConnectWallet dropdownPosition={{ side: 'bottom', align: 'center'}} />
 }
 
-<div style={{display:'flex'}}>
-<div style={{flex:'300px'}}>
-<div class="divTableRow">
-<div class="divTableCell">Token Name</div>
-<div class="divTableCell">Price</div>
-<div class="divTableCell">24h Change</div>
-</div>
-{/* The Rows bellow needs to be mapped, the smart contract or thirdweb sdk needs to getWallets */}
-<div class="divTableRow">
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
-</div>
-<div class="divTableRow">
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
-<div class="divTableCell">&nbsp;</div>
-</div>
 
-</div>
 
 <div style={{flex:'300px'}}>
 
 {/* <ApexChartGraphComp></ApexChartGraphComp> */}
 
-<ConnectWallet dropdownPosition={{ side: 'bottom', align: 'center'}} />
+
 
 {
   !address?<div>No wallet connected</div>:<div>My wallet address is {address}</div>}
 </div>
 
-
+</div>
 
 <div style={{flex:'300px'}}>
-  {address?<Buyers></Buyers>:<p>Connect Wallet</p>}
+  {address?<Buyers></Buyers>:<p>Connect Wallet To see Buyers</p>}
 
 </div>
 
-</div>
 <div style={{display:'flex'}}>
 <div className="w-72">
-<form>
+
       <Select value={chosenPair} onChange={handleChange}>
-        <Option value="FTMUSD">FTMtoUSD</Option>
-        <Option value="FTMETH">FTMtoEth</Option>
+        <Option value="ftmUsdc">FTMtoUSDC</Option>
+        <Option value="ftmEth">FTMtoEth</Option>
+        <Option value="UsdcFtm">USDCtoEth</Option>
+        <Option value="ethFtm">USDCtoEth</Option>
       </Select>
-    </form>
+   
     </div>
 {chosenPair==="FTMUSD"?<iframe style={{aspectRatio: 1200 / 630, width:'100%', height:'fit-content'}} src="https://www.coindesk.com/embedded-chart/mLGwcntwq8DGD" width="100%" frameborder="0"></iframe>
 :<iframe style={{aspectRatio: 1200 / 630, width:'100%', height:'fit-content'}} src="https://www.coindesk.com/embedded-chart/LFCBMGkF9cNdn" width="100%" frameborder="0"></iframe>}<div style={{flex:'300px'}}>
-    {address?<Sellers></Sellers>:<p>Connect Wallet</p>}
+    {address?<Sellers></Sellers>:<p>Connect Wallet To See Sellers</p>}
  
-
-{/* The Rows bellow needs to be mapped, the smart contract or thirdweb sdk needs to getWallets */}
-
 
 
 
@@ -203,45 +181,23 @@ const handleChange=(event)=>{
 <h3>Your Token Name:{}</h3>
 
 <h3>Buy</h3>
-{buyPrice}
-<label>Price</label>
-
-{buyAmount}
-<label>Amount</label>
-<Input type="number" value={buyAmount} onChange={handleChangeBuyAmount}></Input>
-{!buyStatus?
-<Web3Button
-      contractAddress={""}
-      action={(contract) => {contract.call("addWalletAddress",[address,buyAmount]).then(()=>{
-        
-        // contract.call("buyTokens",[selectedSeller,selectedSellerQuantity])
-        setBuyStatus(true);
-
-      })
-    //   buyAddressesArray.push(address);
-    //   buyAddressesAmountArray.push(buyAmount());
-    // buyAddressesPriceArray.push(buyPrice());
-  }}
-    >
-    Buy
-    </Web3Button>
-    :<h2>Added to Buy List Please Check Your Wallet Soon...</h2>
-    }
-   
+<BuyerModule myAddress={address}></BuyerModule>
+ 
 </div>
 <div id="sell" style={{display:"flex",flexDirection:"column"}}>
 <h3>Sell</h3>
-<label>Price{sellPrice}</label>
 
-<Input type="number" value={sellPrice} onChange={handleChangeSellPrice}></Input>
 <label>Amount{sellAmount}</label>
 <Input type="number" value={sellAmount} onChange={handleChangeSellAmount}></Input>
+<label>Asking quantity in return</label>
+<Input type="number" value={returnAmount2} onChange={handleChangeReturnAmount2}></Input>
+
 {!sellStatus?
   <Web3Button
       contractAddress="0x76951647E998F4802ECfB1A3ACADc27400Dfe074"
       action={async (contract) => {
         alert("request sent")
-        await contract.call("addWalletAddress",[address,sellPrice]);
+        await contract.call("addWalletAddress",[address,buyAmount,returnAmount2,chosenPair]);
         // await contract.call("sellTokens",[selectedBuyer,selectedQuantity]).then(()=>setSellStatus(true))
           
         }}
@@ -250,27 +206,12 @@ const handleChange=(event)=>{
     </Web3Button>
     :
     <h2>Added to sell list Your Sell Request will finsih soon check your</h2>
-    // <Web3Button
-    //   contractAddress="contractAddressSeller"
-    //   action={(contract) => {contract.call("removeWalletAddress",[{address}]).then(()=>{
-    //     setSellStatus(false)
     
-    //   })
-    //   //   buyAddressesArray.push(address);
-    // //   buyAddressesAmountArray.push(buyAmount());
-    // // buyAddressesPriceArray.push(buyPrice());
-    // }}
-    // >
-    // Cancel
-    // </Web3Button>
 }
 </div>
 
-</div><div style={{flex:'300px'}}> 
-<p>Last Price</p>
-
 </div></div>
-</div> 
+
    
 
         </>
