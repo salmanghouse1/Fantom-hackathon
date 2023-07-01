@@ -11,7 +11,7 @@ contract WalletAddressStorageContractBuyer {
     address owner;
     uint count;
 
-    constructor()public{
+    constructor(){
         owner = msg.sender;
         count=0;
     }
