@@ -8,6 +8,8 @@ typechain-types
 # Hardhat files
 cache
 artifacts
+cache2
+artifacts2
 
-
+thirdweb-contracts
 .openzeppelin\.session

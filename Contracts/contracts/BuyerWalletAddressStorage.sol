@@ -1,71 +1,201 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-import "hardhat/console.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
+pragma solidity ^0.8.1;
 
-interface IERC20 {
-    function transfer(address recipient, uint256 amount) external returns (bool);
-    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
-    function balanceOf(address account) external view returns (uint256);
-    function allowance(address owner, address spender) external view returns (uint256);
-}
+import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
+
 
 contract WalletAddressStorageContractBuyer {
 
-    struct WalletAddresesData{
-    string coinBuy;
-    uint amount;
+    address owner;
+    uint count;
+
+    constructor()public{
+        owner = msg.sender;
+        count=0;
     }
-address[] public walletAddresses;
-    uint []amounts;
+
+    modifier onlyOwner (){
+        require(msg.sender == owner);
+        _;
+    }
+
+    struct user {
+  address addr;
+  string amounts;
+  string returnAmounts;
+  string tokenPair;
+}
+
+string[] walletAddresses;
+    mapping(uint => user) public users; // contains a user for every address
+
+    function addUser(uint _index,address _address,string memory amounts, string memory returnAmounts, string memory tokenPair) public onlyOwner {
+        
+        users[_index] = user(_address,amounts, returnAmounts, tokenPair);
+       count++;
+    }
+
+       function getUser(uint _index) public view returns(address addr, string memory amounts, string memory returnAmounts,string memory tokenPair) {
+         //if(users[_address].age == 0) throw;
+        return (users[_index].addr, users[_index].amounts, users[_index].returnAmounts,users[_index].tokenPair);        
+    }
+
+ function userCount() public view returns(uint) { return count; }
+
+// function getAllUser() public view returns(address[] memory,string memory,string[] memory, string[] memory){
+//  address[]    memory addr = new address[](count);
+//       string[]    memory amounts = new string[](count);
+//       string[]  memory returnAmounts = new string[](count);
+//         string[]  memory tokenPair = new string[](count);
+
+// for(uint i=0;i<count;i++){
+// user storage people = users[i];
+// addr[i]=people.addr;
+// amounts[i]=people.amounts;
+// returnAmounts[i]=people.returnAmounts;
+// tokenPair[i]=people.tokenPair;
+// }
+// return (addr,amounts,returnAmounts,tokenPair);
+
+// }
+
+function getPeople() public view returns (address[] memory, string[] memory,string[] memory,string[] memory){
+      address[]    memory addr = new address[](count);
+    //   string[]  memory name = new string[](count);
+      string[]    memory amounts = new string[](count);
+      string[]    memory returnAmounts = new string[](count);
+    string[]    memory tokenPairs = new string[](count);
+      
+      for (uint i = 0; i < count; i++) {
+          user storage people = users[i];
+          addr[i] = people.addr;
+          amounts[i] = people.amounts;
+          returnAmounts[i] = people.returnAmounts;
+          tokenPairs[i] = people.tokenPair;
+      }
+
+      return (addr,amounts,returnAmounts,tokenPairs);
+
+  }
+
+
+
+function getAllUsers() public view returns (user[] memory){
+      user[]    memory id = new user[](count);
+      for (uint i = 0; i < count; i++) {
+          user storage people = users[i];
+          id[i] = people;
+      }
+      return id;
+  }
+
+// Requires a public getter for array size
+
+
+//        function getAllUsers() public view returns(string[] walletAddresses) {
+//          //if(users[_address].age == 0) throw;
+// // for(i = 0; i < k.size(); i++) {
+// //     someFunc( k.users(k.addressLUT(i)) );
+// // }            
+// return walletAddresses;
+//         }
+    
+
+    // function getUser(address _address) public view returns(string memory name, string memory surname, uint age) {
+    //      //if(users[_address].age == 0) throw;
+    //     return (users[_address].name, users[_address].surname, users[_address].age);        
+    // }
+
+    
+// address[] walletAddresses;
+    // string[] amounts;
    
+// string[] returnAmounts;
+// event WalletAddressAdded(address walletAddress);
+//     event WalletAddressRemoved(address removeWalletAddress);
+//     string ftmUsdt="FtmToUsdT";
+//     // string[] tokenPair;
+//     // Add a wallet address to the array
 
-    string[][] walletAddressesAndAmounts;
-    event WalletAddressAdded(address walletAddress);
-    event WalletAddressRemoved(address removeWalletAddress);
-    string convertAddress;
-    int newQuantity;
+// event getAllAddressesEvent(address[] _walletAddressesAll, string[] _amountsAll, string[] _returnAmountsAll,string[] _tokenpairAll);
+
+
  
-    mapping (address => WalletAddresesData[]) dataByAddress;
-    // Add a wallet address to the array
+// function getUsers() public view returns (BuyerData[] memory) {
+//   BuyerData[] memory buyerArray = new BuyerData[](buyers.length);
 
-function addWalletAddress(address _walletAddress,uint _amounts) external {
-        require(_walletAddress != address(0), "Invalid wallet address");
+//   for (uint i = 0; i < buyers.length; i++) {
+//     buyerArray[i] = buyers[i];
+//   }
 
-        walletAddresses.push(_walletAddress);
-        amounts.push(_amounts);
-        // Emit event
-        emit WalletAddressAdded(_walletAddress);
-    }
-function removeWalletAddress(address _walletAddress) external {
-        require(_walletAddress != address(0), "Invalid wallet address");
+//   return buyerArray;
+// }
 
-        for (uint256 i = 0; i < walletAddresses.length; i++) {
-            if (walletAddresses[i] == _walletAddress) {
-                walletAddresses[i] = walletAddresses[walletAddresses.length - 1];
-                walletAddresses.pop();
+// function addWalletAddress(address _walletAddress,string memory _amounts,string memory _returnAmounts,string memory _tokenPair) external {
+//         require(_walletAddress != address(0), "Invalid wallet address");
+//         mapping(address => BuyerData) public BuyerDatas;
+//         BuyerData.addr=_walletAddress;
+//         BuyerData.amounts=_amounts;
+//         BuyerData.returnAmounts=_returnAmounts;
+//         BuyerData.tokenPair=_tokenPair;
+// BuyerData[] memory buyerArray = new BuyerData[](buyers.length);
 
-                // Emit event
-                emit WalletAddressRemoved(_walletAddress);
+//   for (uint i = 0; i < buyers.length; i++) {
+//     buyerArray[i] = buyers[i];
+//   }
 
-                break;
-            }
-        }
-    }
+//   return buyerArray;
+
+    
+//         // Emit event
+//         emit WalletAddressAdded(_walletAddress);
+//     }
+// function removeWalletAddress(address _walletAddress) external {
+//         require(_walletAddress != address(0), "Invalid wallet address");
+
+//         for (uint256 i = 0; i < buyerArray.length; i++) {
+//             if (buyerArray[i] == _walletAddress) {
+//                 walletAddresses[i] = walletAddresses[walletAddresses.length - 1];
+//                 walletAddresses.pop();
+//                 amounts[i] = amounts[amounts.length - 1];
+//                 amounts.pop();
+//                 returnAmounts[i] = returnAmounts[returnAmounts.length - 1];
+//                 returnAmounts.pop();
+//                 tokenPair[i] = tokenPair[tokenPair.length - 1];
+//                 tokenPair.pop();
+                
+
+//                 // Emit event
+//                 emit WalletAddressRemoved(_walletAddress);
+
+//                 break;
+//             }
+//         }
+//     }
     // Get the total number of wallet addresses stored
-    function getWalletAddressCount() external view returns (uint256) {
-        return walletAddresses.length;
-    }
+
+
+
+    // function getWalletAddressCount() external view returns (uint256) {
+    //     return walletAddresses.length;
+    // }
 
     // Get a specific wallet address from the array
-    function getWalletAddress(uint256 _index) external view returns (address) {
-        require(_index < walletAddresses.length, "Invalid index");
 
-        return walletAddresses[_index];
-    }
-    function getAllWalletAddresses() external view returns (address[] memory,uint[] memory) {
-        return (walletAddresses,amounts);
-    }
+
+    // function getWalletAddress(uint256 _index) external view returns (address) {
+    //     require(_index < walletAddresses.length, "Invalid index");
+
+    //     return walletAddresses[_index];
+    // }
+
+    // function getAllWalletAddresses()public returns(string[],string[],string[]){
+        
+    //     emit getAllAddressesEvent(walletAddresses,amounts,returnAmounts,tokenPair);
+    //    getUsers();
+    //      }
 
 //     function addWalletAddress(address _walletAddress,uint _amount,string memory _coinBuy) external{
 //         require(_walletAddress != address(0), "Invalid wallet address");
@@ -112,23 +242,29 @@ function removeWalletAddress(address _walletAddress) external {
 
 
     address public tokenAddress; // Address of the ERC20 token being traded
-    address public owner; // Address of the contract owner
+ // Address of the contract owner
 
     mapping(address => uint256) public tokenBalances; // Mapping of token balances for each user
 
     event Trade(address indexed buyer, address indexed seller, uint256 quantity);
 
-    constructor(address _tokenAddress) {
-        tokenAddress = _tokenAddress;
-        owner = msg.sender;
-    }
+    
 
     // Buy tokens from the seller
-    function buyTokens(address _seller, uint256 _quantity) external {
+    function buyTokens(address _seller, uint256 _quantity, string memory _token1) external {
         require(_seller != address(0), "Invalid seller address");
         require(_quantity > 0, "Invalid quantity");
-
+        if(Strings.equal(_token1,"ftmUsdc")){
+            
         IERC20 token = IERC20(tokenAddress);
+        IERC20 token2 = IERC20(tokenAddress);
+        
+        require(token.balanceOf(_seller) >= _quantity, "Seller does not have enough tokens");
+
+        // Transfer tokens from the seller to the buyer
+        require(token.transferFrom(_seller, msg.sender, _quantity), "Token transfer failed");
+        require(token2.transferFrom(msg.sender, _seller, _quantity), "Token transfer failed");
+
         require(token.balanceOf(_seller) >= _quantity, "Seller does not have enough tokens");
 
         // Transfer tokens from the seller to the buyer
@@ -140,6 +276,43 @@ function removeWalletAddress(address _walletAddress) external {
 
         // Emit trade event
         emit Trade(msg.sender, _seller, _quantity);
+        }
+        else if(Strings.equal(_token1,"UsdcFtm")){
+
+        IERC20 token = IERC20(tokenAddress);
+        IERC20 token2 = IERC20(tokenAddress);
+        
+        require(token.balanceOf(_seller) >= _quantity, "Seller does not have enough tokens");
+
+        // Transfer tokens from the seller to the buyer
+        require(token.transferFrom(_seller, msg.sender, _quantity), "Token transfer failed");
+        require(token2.transferFrom(msg.sender, _seller, _quantity), "Token transfer failed");
+
+        // Update token balances
+        tokenBalances[_seller] -= _quantity;
+        tokenBalances[msg.sender] += _quantity;
+
+        // Emit trade event
+        emit Trade(msg.sender, _seller, _quantity);
+        }
+        else if(Strings.equal(_token1,"ftmEth")){
+
+        IERC20 token = IERC20(tokenAddress);
+           IERC20 token2 = IERC20(tokenAddress);
+        
+        require(token.balanceOf(_seller) >= _quantity, "Seller does not have enough tokens");
+
+        // Transfer tokens from the seller to the buyer
+        require(token.transferFrom(_seller, msg.sender, _quantity), "Token transfer failed");
+        require(token2.transferFrom(msg.sender, _seller, _quantity), "Token transfer failed");
+
+        // Update token balances
+        tokenBalances[_seller] -= _quantity;
+        tokenBalances[msg.sender] += _quantity;
+
+        // Emit trade event
+        emit Trade(msg.sender, _seller, _quantity);
+        }
     }
 
     // Sell tokens to the buyer
