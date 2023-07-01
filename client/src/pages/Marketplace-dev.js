@@ -139,8 +139,6 @@ const handleChangeSDK=(event)=>{
 
 <div style={{flex:'300px'}}>
 
-{/* <ApexChartGraphComp></ApexChartGraphComp> */}
-
 
 
 {
