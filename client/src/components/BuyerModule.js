@@ -58,7 +58,7 @@ return (<div style={{flex:'300px',display:"flex",flexDirection:"row"}}>
     <Input type="number" value={returnAmount} onChange={handleChangeReturnAmount}></Input>
     {!buyStatus||!buyAmount||!returnAmount||!chosenPair2?
     <Web3Button
-          contractAddress={"0xa62DCe673A9debCF8831De4a818aB9F424763b6C"}
+          contractAddress={"0x2951421c7Ee414Afb5a689B63b8A7b936024ADd1"}
           action={(contract) => {contract.call("addWalletAddress",[props.myAddress,buyAmount,returnAmount,chosenPair2]).then(()=>{
             
             // contract.call("buyTokens",[selectedSeller,selectedSellerQuantity])

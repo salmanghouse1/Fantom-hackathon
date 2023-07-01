@@ -194,7 +194,7 @@ const handleChangeSDK=(event)=>{
 
 {!sellStatus?
   <Web3Button
-      contractAddress="0x76951647E998F4802ECfB1A3ACADc27400Dfe074"
+      contractAddress="0x06B44B5FAC809723C58c74B0A2315BF70BaF6cE8"
       action={async (contract) => {
         alert("request sent")
         await contract.call("addWalletAddress",[address,buyAmount,returnAmount2,chosenPair]);

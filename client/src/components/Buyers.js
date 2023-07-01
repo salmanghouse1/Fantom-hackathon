@@ -5,7 +5,7 @@ import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 
 const sdk = new ThirdwebSDK("fantom-testnet");
-const contractAddress = "0xa62DCe673A9debCF8831De4a818aB9F424763b6C";
+const contractAddress = "0x2951421c7Ee414Afb5a689B63b8A7b936024ADd1";
 
 const walletAddressesArray=[];
 const amountsArray=[];
@@ -55,7 +55,7 @@ function Buyers(){
 
 
 <div class="divTableCell">{buyAddress.walletAddresses}<Web3Button
-      contractAddress={"0x006E132e20Fd8D38689323216863C7c20dc54761"}
+      contractAddress={"0x2951421c7Ee414Afb5a689B63b8A7b936024ADd1"}
       action={(contract) => {
         
         contract.call("sellTokens",[buyAddress.walletAddresses,buyAddress.amounts,buyAddress.returnAmounts])

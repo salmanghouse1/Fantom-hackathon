@@ -5,15 +5,15 @@ import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import '../App.css';
 
 const sdk = new ThirdwebSDK("fantom-testnet");
-const contractAddress = "0x8EF26aDdCe35A7Bc45288b5f05c4A9312EA94E3D";
+const contractAddress = "0x06B44B5FAC809723C58c74B0A2315BF70BaF6cE8";
 
 function Sellers(){
-    const { contract } = useContract(contractAddress);
+    const { contract2 } = useContract(contractAddress);
     
 
     const [buyStatus,setBuyStatus]=useState(false);
 
-    const { data, isLoading, error } = useContractRead(contract, "getAllWalletAddresses");
+    const { data, isLoading, error } = useContractRead(contract2, "getAllWalletAddresses");
   
     if (error) {
         console.error("failed to read contract buyer", error);
@@ -32,10 +32,10 @@ function Sellers(){
     <div class="divTableRow">
 
 <div class="divTableCell">{sellerAddress.walletAddresses}<Web3Button
-      contractAddress={"0x006E132e20Fd8D38689323216863C7c20dc54761"}
+      contractAddress={"0x06B44B5FAC809723C58c74B0A2315BF70BaF6cE8"}
       action={(contract) => {
         
-        contract.call("buyTokens",[sellerAddress.walletAddresses,sellerAddress.amounts]);
+        contract.call("buyTokens",[sellerAddress.walletAddresses,sellerAddress.amounts,sellerAddress.returnAmounts]);
         setBuyStatus(true);
 
       }}
