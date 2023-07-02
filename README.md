@@ -113,3 +113,14 @@ return myself[id].name, myself[id].age, myself[id].passion;
 You need to first assign an ID and then map through with that ID in the code.
 
 After that you can set the mapping of the contract as public and loop through it in the frontend by passing in the id that you used to map through and that should fetch all the objects for all the ids.
+
+
+
+# Usage:
+
+
+in terminal:
+
+cd client 
+
+npm start
