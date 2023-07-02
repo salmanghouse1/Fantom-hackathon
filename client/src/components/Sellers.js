@@ -7,9 +7,34 @@ import '../App.css';
 const sdk = new ThirdwebSDK("fantom-testnet");
 const contractAddress = "0x06B44B5FAC809723C58c74B0A2315BF70BaF6cE8";
 
-function Sellers(){
+function Sellers(props){
     const { contract } = useContract(contractAddress);
-    
+    const rows = [];
+// for (let i = 0; i < numrows; i++) {
+    // note: we are adding a key prop here to allow react to uniquely identify each
+    // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
+ 
+    rows.push(<>
+    <tr>
+   <th>
+            {props.myAddress.slice(0, 3)}...{props.myAddress.slice(-3)}</th><th>Send:3</th><th>Recieve:5</th><th>Pair:FTMtoUSD<Web3Button
+          contractAddress={"0x5C066A4E673EfDc91c7c9880f068B95752119994"}
+          action={(contract) => {contract.call("",[props.myAddress,1,2,"FTM","USD"]).then(()=>{
+            
+            // contract.call("buyTokens",[selectedSeller,selectedSellerQuantity])
+            setBuyStatus(true);
+            
+          })
+          //   buyAddressesArray.push(address);
+          //   buyAddressesAmountArray.push(buyAmount());
+          // buyAddressesPriceArray.push(buyPrice());
+        }}
+        >
+        Swap
+        </Web3Button>
+        </th>
+        </tr>
+    </>)
 
     const [buyStatus,setBuyStatus]=useState(false);
 
@@ -23,13 +48,31 @@ function Sellers(){
       }
     return(
         <div style={{flex:'300px'}}>
-<div class="divTableRow">
+<table class="tg">
+  <thead>
+<tr>
 
-<div class="divTableCell">Seller</div>
-<div class="divTableCell">Amount Asking</div>
-<div class="divTableCell">Amount Sending</div>
-<div class="divTableCell">Pair</div>
-</div>
+<th>
+Seller
+</th>
+<th>
+Seller Send
+</th>
+<th>
+Seller Recieve
+</th>
+<th>
+Pair
+</th>
+
+</tr>
+  </thead>
+
+{/* {data.map((singleData)=>{<div style={{display:"inline"}}><h5>Address:{singleData.addr}Amount Asking:{singleData.amounts}Return Amount:{singleData.returnAmounts}TokenPairs:{singleData.tokenPairs}</h5></div>})} */}
+
+<tbody>{rows}</tbody>
+
+        </table>
 {/* The Rows bellow needs to be mapped, the smart contract or thirdweb sdk needs to getWallets */}
 
 {/* 

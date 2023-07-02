@@ -24,23 +24,14 @@ const Layout = () => {
   
     const navList = (
       <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+        
         <Typography
           as="li"
           variant="small"
           color="blue-gray"
           className="p-1 font-normal"
         >
-          <a href="#" className="flex items-center">
-            Pages
-          </a>
-        </Typography>
-        <Typography
-          as="li"
-          variant="small"
-          color="blue-gray"
-          className="p-1 font-normal"
-        >
-          <a href="#" className="flex items-center">
+          <a href="/" className="flex items-center">
             Home
           </a>
         </Typography>
@@ -50,8 +41,8 @@ const Layout = () => {
           color="blue-gray"
           className="p-1 font-normal"
         >
-          <a href="#" className="flex items-center">
-            About
+          <a href="./auctions" className="flex items-center">
+            Auctions
           </a>
         </Typography>
         <Typography
@@ -61,17 +52,7 @@ const Layout = () => {
           className="p-1 font-normal"
         >
           <a href="#" className="flex items-center">
-            Discuss
-          </a>
-        </Typography>
-        <Typography
-          as="li"
-          variant="small"
-          color="blue-gray"
-          className="p-1 font-normal"
-        >
-          <a href="#" className="flex items-center">
-            Swap
+            Quick Swap(coming soon)
           </a>
         </Typography>
       </ul>

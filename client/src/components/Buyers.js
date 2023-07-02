@@ -4,29 +4,35 @@ import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 
 const sdk = new ThirdwebSDK("fantom-testnet");
-const contractAddress = "0x0b12B74445D2e72774d3AAC0834A8530eC2C3573";
+const contractAddress = "0x5C066A4E673EfDc91c7c9880f068B95752119994";
 
 const walletAddressesArray=[];
 const amountsArray=[];
 const returnAmountsArray=[];
-function Buyers(){
+function Buyers(props){
     const { contract } = useContract(contractAddress);
-
+   
 
     const [buyStatus,setBuyStatus]=useState(false);
-    const { data, isLoading, error } = useContractRead(contract);
+    // const { data, isLoading, error } = useContractRead(contract,"getPeople");
 
-    if (error) {
-        console.error("failed to read contract buyer", error);
-      }
-      else{
-        console.log("everything ok");
-        console.log("Buyers"+data);
-        // console.log(data.walletAddresses);
-      }
+    // const { data2, isLoading2, error2 } = useContractRead(contract,"getAmounts");
+
+    // const { data3, isLoading3, error3 } = useContractRead(contract,"getReturnAmounts");
+
+    // const { data4, isLoading4, error4} = useContractRead(contract,"getTokenPair");
+
+
+    // if (error) {
+    //     console.error("failed to read contract buyer", error);
+    //   }
+    //   else{
+    //     console.log("everything ok");
+    //     console.log("Buyers list"+data);
+    //     // console.log(data.walletAddresses);
+    //   }
       // for(i=0;i<data.walletAddresses.length;i++){
       //   walletAddressesArray.push(data.walletAddresses[i]);
-       
       //  }
       //  for(i=0;i<data.amounts.length;i++){
       //   amountsArray.push(data.amounts[i]);
@@ -37,31 +43,72 @@ function Buyers(){
       //   amountsArray.push(data.amounts[i]);
        
       //  }
-    return(
-        <div style={{flex:'300px'}}>
-        <h2>Buyers</h2>
-<div class="divTableRow">
 
-<div class="divTableCell">Buyer</div>
-<div class="divTableCell">Amount Sent</div>
-<div class="divTableCell">Amount Recieve</div>
-<div class="divTableCell">Pair</div>
-</div>
-{/* 
-{isLoading?<p>Is Loading, no buyers yet</p>:data.map((walletAddress)=>{
-  console.log("mapped:"+walletAddress);
-<div class="divTableRow">
-<div class="divTableCell"><h2>{walletAddress}</h2>
-</div>    
-</div>  
+// const retrievedData=[{"address":data,"amount":data2,"returnedAmount":data3,"tokenPair":data4}];
+// JSON.stringify(retrievedData);
+const rows = [];
+// for (let i = 0; i < numrows; i++) {
+    // note: we are adding a key prop here to allow react to uniquely identify each
+    // element in this array. see: https://reactjs.org/docs/lists-and-keys.html
+ 
+    rows.push(<>
+    <tr>
+   <th>
+            {props.myAddress.slice(0, 3)}...{props.myAddress.slice(-3)}</th><th>Send:1</th><th>Recieve:2</th><th>Pair:FTMtoUSD<Web3Button
+          contractAddress={"0x5C066A4E673EfDc91c7c9880f068B95752119994"}
+          action={(contract) => {contract.call("",[props.myAddress,1,2,"FTM","USD"]).then(()=>{
+            
+            // contract.call("buyTokens",[selectedSeller,selectedSellerQuantity])
+            setBuyStatus(true);
+            
+          })
+          //   buyAddressesArray.push(address);
+          //   buyAddressesAmountArray.push(buyAmount());
+          // buyAddressesPriceArray.push(buyPrice());
+        }}
+        >
+        Swap
+        </Web3Button>
+        </th>
+        </tr>
+    </>)
+    
+    
+    // }
+    
+      return(
+        <>
+<table class="tg">
+  <thead>
+<tr>
+
+<th>
+Buyer
+</th>
+<th>
+Buyer Send
+</th>
+<th>
+Buyer Recieve
+</th>
+<th>
+Pair
+</th>
+
+</tr>
+  </thead>
+
+{/* {data.map((singleData)=>{<div style={{display:"inline"}}><h5>Address:{singleData.addr}Amount Asking:{singleData.amounts}Return Amount:{singleData.returnAmounts}TokenPairs:{singleData.tokenPairs}</h5></div>})} */}
+
+<tbody>{rows}</tbody>
+
+        </table>
+          </>
+        
+
   
-  })}
- */}
-
-  
 
 
-</div>
     )
 };
 

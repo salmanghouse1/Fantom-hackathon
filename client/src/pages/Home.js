@@ -4,8 +4,8 @@ import React from 'react';
 // import Particles from 'react-particles-js';
 
 import { useCallback } from "react";
-import Particles from "react-tsparticles";
-import { loadFull } from "tsparticles";
+// import Particles from "react-tsparticles";
+// import { loadFull } from "tsparticles";
 import Hero from "../assets/crypto-center.gif";
 import ComplexNavbar from "../components/Header";
 
@@ -21,17 +21,17 @@ import {
 
 function Home() {
     
-      const particlesInit = useCallback(async engine => {
-                console.log(engine);
-                // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
-                // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-                // starting from v2 you can add only the features you need reducing the bundle size
-                await loadFull(engine);
-            }, []);
+    //   const particlesInit = useCallback(async engine => {
+    //             console.log(engine);
+    //             // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
+    //             // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+    //             // starting from v2 you can add only the features you need reducing the bundle size
+    //             await loadFull(engine);
+    //         }, []);
             
-            const particlesLoaded = useCallback(async container => {
-                await console.log(container);
-            }, []);
+    //         const particlesLoaded = useCallback(async container => {
+    //             await console.log(container);
+    //         }, []);
 
 
     return ( 
@@ -53,6 +53,7 @@ function Home() {
           So you ask Can you help me out in Finance and Asset Trading? 
           So I have created the fastest, most decentralized Exchange and its using the Fantom Coin! Fantom Coin The Fastest most secure coin out there!
           Lets Trade, Swap and do more on this awesome site, even discuss your trades on the social media app.
+       Want to Buy Expensive Goods. Check Out Our <a style={{color:"blue",textDecoration:"underline"}}href="./auctions">Auctions...</a>
         </Typography>
         <Button variant="gradient">Connect Wallet</Button>
       </div>
@@ -68,7 +69,7 @@ function Home() {
         <div style={{display: "flex",justifyContent: "center",
     alignItems: "center"}}>
         
-        <Particles
+        {/* <Particles
             id="tsparticles"
             init={particlesInit}
             loaded={particlesLoaded}
@@ -147,9 +148,9 @@ function Home() {
                 },
                 detectRetina: true,
             }}
-            />
+            /> */}
             </div>
-            <div>
+            <div style={{textAlign:'center'}}>
             <h1 style={{color:"white"}}>Fantom The Fastest There is!</h1>
             <Button variant="gradient">Trade Now</Button>
             

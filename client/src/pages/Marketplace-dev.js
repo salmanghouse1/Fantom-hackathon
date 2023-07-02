@@ -2,6 +2,8 @@ import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 
 import React,{Component, useState,componentDidMount} from 'react';
+
+
 import {
   Button,
   IconButton,
@@ -25,6 +27,7 @@ import Sellers from '../components/Sellers';
 import Buyers from '../components/Buyers';
 import BuyerModule from "../components/BuyerModule";
 
+import SellerModule from "../components/SellerModule";
 
 
 
@@ -114,8 +117,8 @@ const handleChangeBuyPrice = (event) => {
   setBuyPrice(event.target.value);
 };
 
-const handleChange=(event)=>{
-  setChosenPair(event.target.value)
+const handleChange=(e)=>{
+  setChosenPair(e)
 }
 
 const handleChange2=(event)=>{
@@ -130,12 +133,24 @@ const handleChangeSDK=(event)=>{
         
         
         <>
-  
+
+
 <div>
-{!address?<div><h2>Make Sure to connect wallet</h2></div>:<ConnectWallet dropdownPosition={{ side: 'bottom', align: 'center'}} />
+{!address?<div><h2>Make Sure to connect wallet</h2><ConnectWallet dropdownPosition={{ side: 'bottom', align: 'center'}} /></div>:<ConnectWallet dropdownPosition={{ side: 'bottom', align: 'center'}} />
 }
 
+<div style={{display:'flex'}}>
+<div className="w-72">
 
+      <Select onChange={handleChange}>
+        <Option value="ftmUsdc">FTMtoUSDC</Option>
+        <Option value="ftmEth">FTMtoEth</Option>
+        <Option value="UsdcFtm">USDCtoEth</Option>
+        <Option value="ethFtm">USDCtoEth</Option>
+      </Select>
+   
+    </div>
+    </div>
 
 <div style={{flex:'300px'}}>
 
@@ -147,25 +162,12 @@ const handleChangeSDK=(event)=>{
 
 </div>
 
-<div style={{flex:'300px'}}>
-  {address?<Buyers></Buyers>:<p>Connect Wallet To see Buyers</p>}
 
-</div>
 
-<div style={{display:'flex'}}>
-<div className="w-72">
 
-      <Select value={chosenPair} onChange={handleChange}>
-        <Option value="ftmUsdc">FTMtoUSDC</Option>
-        <Option value="ftmEth">FTMtoEth</Option>
-        <Option value="UsdcFtm">USDCtoEth</Option>
-        <Option value="ethFtm">USDCtoEth</Option>
-      </Select>
-   
-    </div>
 {chosenPair==="FTMUSD"?<iframe style={{aspectRatio: 1200 / 630, width:'100%', height:'fit-content'}} src="https://www.coindesk.com/embedded-chart/mLGwcntwq8DGD" width="100%" frameborder="0"></iframe>
 :<iframe style={{aspectRatio: 1200 / 630, width:'100%', height:'fit-content'}} src="https://www.coindesk.com/embedded-chart/LFCBMGkF9cNdn" width="100%" frameborder="0"></iframe>}<div style={{flex:'300px'}}>
-    {address?<Sellers></Sellers>:<p>Connect Wallet To See Sellers</p>}
+    {address?<Sellers myAddress={address}></Sellers>:<p>Connect Wallet To See Sellers</p>}
  
 
 
@@ -173,42 +175,29 @@ const handleChangeSDK=(event)=>{
 
 
 
-</div>
+
 <div style={{flex:'300px',display:"flex",flexDirection:"row"}}>
-<div id="buy" style={{display:"flex",flexDirection:"column"}}>
-<h3>Your Token Name:{}</h3>
+<div style={{flex:'300px'}}>
+  {address?<Buyers myAddress={address}></Buyers>:<p>Connect Wallet To see Buyers</p>}
+
+</div>
+
+<div id="buy" style={{display:"flex",flexDirection:"row"}}>
+<h3>Your Token Name:{chosenPair}</h3>
 
 <h3>Buy</h3>
 <BuyerModule myAddress={address}></BuyerModule>
  
 </div>
-<div id="sell" style={{display:"flex",flexDirection:"column"}}>
-<h3>Sell</h3>
+<SellerModule myAddress={address}>
 
-<label>Amount{sellAmount}</label>
-<Input type="number" value={sellAmount} onChange={handleChangeSellAmount}></Input>
-<label>Asking quantity in return</label>
-<Input type="number" value={returnAmount2} onChange={handleChangeReturnAmount2}></Input>
-
-{!sellStatus?
-  <Web3Button
-      contractAddress="0x06B44B5FAC809723C58c74B0A2315BF70BaF6cE8"
-      action={async (contract) => {
-        alert("request sent")
-        await contract.call("addWalletAddress",[address,buyAmount,returnAmount2,chosenPair]);
-        // await contract.call("sellTokens",[selectedBuyer,selectedQuantity]).then(()=>setSellStatus(true))
-          
-        }}
-      >
-      Sell
-    </Web3Button>
-    :
-    <h2>Added to sell list Your Sell Request will finsih soon check your</h2>
+</SellerModule>
     
-}
+
 </div>
 
-</div></div>
+</div>
+
 
    
 

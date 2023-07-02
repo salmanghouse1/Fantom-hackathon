@@ -34,9 +34,15 @@ function BuyerModule(props) {
   const handleChangeReturnAmount = (event) => {
     setReturnAmount(event.target.value);
   };
+  const [position,setPosition]= useState(0);
+
+  const handleChangePosition = (event) => {
+    setPosition(event.target.value);
+  };
       const handleChange2=(e)=>{
         setChosenPair2(e);
       }
+
 
 return (<div style={{flex:'300px',display:"flex",flexDirection:"row"}}>
     <div id="buy" style={{display:"flex",flexDirection:"column"}}>
@@ -56,10 +62,14 @@ return (<div style={{flex:'300px',display:"flex",flexDirection:"row"}}>
     <Input type="number" value={buyAmount} onChange={handleChangeBuyAmount}></Input>
     <label>Asking quantity in return</label>
     <Input type="number" value={returnAmount} onChange={handleChangeReturnAmount}></Input>
+    <label>Choose A Position</label>
+    <Input type="number" min="1" max="10" value={position} onChange={handleChangePosition}></Input>
+
     {!buyStatus||!buyAmount||!returnAmount||!chosenPair2?
+   
     <Web3Button
-          contractAddress={"0x0b12B74445D2e72774d3AAC0834A8530eC2C3573"}
-          action={(contract) => {contract.call("addWalletAddress",[props.myAddress,buyAmount,returnAmount,chosenPair2]).then(()=>{
+          contractAddress={"0x5C066A4E673EfDc91c7c9880f068B95752119994"}
+          action={(contract) => {contract.call("addUser",[position,props.myAddress,buyAmount,returnAmount,chosenPair2]).then(()=>{
             
             // contract.call("buyTokens",[selectedSeller,selectedSellerQuantity])
             setBuyStatus(true);
