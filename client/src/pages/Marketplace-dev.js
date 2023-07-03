@@ -186,6 +186,7 @@ const handleChangeSDK=(event)=>{
 <h3>Your Token Name:{chosenPair}</h3>
 
 <h3>Buy</h3>
+
 <BuyerModule myAddress={address}></BuyerModule>
  
 </div>

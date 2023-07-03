@@ -67,21 +67,11 @@ return (<div style={{flex:'300px',display:"flex",flexDirection:"row"}}>
 
     {!buyStatus||!buyAmount||!returnAmount||!chosenPair2?
    
-    <Web3Button
-          contractAddress={"0x5C066A4E673EfDc91c7c9880f068B95752119994"}
-          action={(contract) => {contract.call("addUser",[position,props.myAddress,buyAmount,returnAmount,chosenPair2]).then(()=>{
-            
-            // contract.call("buyTokens",[selectedSeller,selectedSellerQuantity])
-            setBuyStatus(true);
-    
-          })
-        //   buyAddressesArray.push(address);
-        //   buyAddressesAmountArray.push(buyAmount());
-        // buyAddressesPriceArray.push(buyPrice());
-      }}
-        >
+    <Button onClick={()=>{
+      sendBuyRequest(address,amount,returnAmount,tokenPair);
+    }}>
         Buy
-        </Web3Button>
+        </Button>
         :<h2>Added to Buy List Please Check Your Wallet Soon...</h2>
         }
      

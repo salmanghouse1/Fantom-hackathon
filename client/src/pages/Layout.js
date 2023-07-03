@@ -31,8 +31,8 @@ const Layout = () => {
           color="blue-gray"
           className="p-1 font-normal"
         >
-          <a href="/" className="flex items-center">
-            Home
+          <a href="/auctions2" className="flex items-center">
+            Auctions2
           </a>
         </Typography>
         <Typography

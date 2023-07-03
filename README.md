@@ -22,6 +22,10 @@ Add more fetching for stocks, add a social media platform that stores messages o
 
 <!-- We are using third web sdk for react,  -->
 
+Latest Contracts:
+0x06B44B5FAC809723C58c74B0A2315BF70BaF6cE8
+0x5C066A4E673EfDc91c7c9880f068B95752119994
+
 Contract deploy history and notes:
 
 contract1 deployed to:0x5FbDB2315678afecb367f032d93F642f64180aa3

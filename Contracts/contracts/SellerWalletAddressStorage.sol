@@ -1,26 +1,24 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-
-import "@openzeppelin/contracts/utils/Strings.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-
+interface IERC20 {
+    function transfer(address recipient, uint256 amount) external returns (bool);
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+    function balanceOf(address account) external view returns (uint256);
+    function allowance(address owner, address spender) external view returns (uint256);
+}
 
 contract WalletAddressStorageContractSeller {
     address[] public walletAddresses;
     uint[] amounts;
-    uint[] returnAmounts;
-    string[] tokenPair;
     event WalletAddressAdded(address indexed walletAddress);
 event WalletAddressRemoved(address removeWalletAddress);
     // Add a wallet address to the array
-    function addWalletAddress(address _walletAddress,uint _amounts,uint _returnAmount,string memory _tokenPair) external {
+    function addWalletAddress(address _walletAddress,uint _amounts) external {
         require(_walletAddress != address(0), "Invalid wallet address");
 
         walletAddresses.push(_walletAddress);
         amounts.push(_amounts);
-        returnAmounts.push(_returnAmount);
-        tokenPair.push(_tokenPair);
         // Emit event
         emit WalletAddressAdded(_walletAddress);
     }
@@ -33,11 +31,6 @@ function removeWalletAddress(address _walletAddress) external {
                 walletAddresses.pop();
                 amounts[i] = amounts[amounts.length - 1];
                 amounts.pop();
-                returnAmounts[i] = returnAmounts[returnAmounts.length - 1];
-                returnAmounts.pop();
-                tokenPair[i] = tokenPair[tokenPair.length - 1];
-                tokenPair.pop();
-                
                 // Emit event
                 emit WalletAddressRemoved(_walletAddress);
 
@@ -56,8 +49,8 @@ function removeWalletAddress(address _walletAddress) external {
 
         return walletAddresses[_index];
     }
-    function getAllWalletAddresses() external view returns (address[] memory,uint[] memory,uint[] memory,string[] memory) {
-        return (walletAddresses,amounts,returnAmounts,tokenPair);
+    function getAllWalletAddresses() external view returns (address[] memory,uint[] memory) {
+        return (walletAddresses,amounts);
     }
     
     address public tokenAddress; // Address of the ERC20 token being traded
@@ -67,26 +60,21 @@ function removeWalletAddress(address _walletAddress) external {
 
     event Trade(address indexed buyer, address indexed seller, uint256 quantity);
 
-    
+    constructor(address _tokenAddress) {
+        tokenAddress = _tokenAddress;
+        owner = msg.sender;
+    }
 
     // Buy tokens from the seller
-    function buyTokens(address _seller, uint256 _quantity,string memory _token1) external {
+    function buyTokens(address _seller, uint256 _quantity) external {
         require(_seller != address(0), "Invalid seller address");
         require(_quantity > 0, "Invalid quantity");
-if(Strings.equal(_token1,"ftmUsdc")){
-        IERC20 token = IERC20(tokenAddress);
-        IERC20 token2 = IERC20(tokenAddress);
 
+        IERC20 token = IERC20(tokenAddress);
         require(token.balanceOf(_seller) >= _quantity, "Seller does not have enough tokens");
 
         // Transfer tokens from the seller to the buyer
         require(token.transferFrom(_seller, msg.sender, _quantity), "Token transfer failed");
-
-         require(token2.balanceOf(_seller) >= _quantity, "Seller does not have enough tokens");
-
-        // Transfer tokens from the seller to the buyer
-        require(token2.transferFrom(msg.sender, _seller, _quantity), "Token transfer failed");
-
 
         // Update token balances
         tokenBalances[_seller] -= _quantity;
@@ -94,132 +82,18 @@ if(Strings.equal(_token1,"ftmUsdc")){
 
         // Emit trade event
         emit Trade(msg.sender, _seller, _quantity);
-}
-else if(Strings.equal(_token1,"UsdcFtm")){
-        IERC20 token = IERC20(tokenAddress);
-        IERC20 token2 = IERC20(tokenAddress);
-
-        require(token.balanceOf(_seller) >= _quantity, "Seller does not have enough tokens");
-
-        // Transfer tokens from the seller to the buyer
-        require(token.transferFrom(_seller, msg.sender, _quantity), "Token transfer failed");
-
-         require(token2.balanceOf(_seller) >= _quantity, "Seller does not have enough tokens");
-
-        // Transfer tokens from the seller to the buyer
-        require(token2.transferFrom(msg.sender, _seller, _quantity), "Token transfer failed");
-
-
-        // Update token balances
-        tokenBalances[_seller] -= _quantity;
-        tokenBalances[msg.sender] += _quantity;
-
-        // Emit trade event
-        emit Trade(msg.sender, _seller, _quantity);
-
-}
-else if(Strings.equal(_token1,"ftmEth")){
-        IERC20 token = IERC20(tokenAddress);
-        
-        IERC20 token2 = IERC20(tokenAddress);
-
-        require(token.balanceOf(_seller) >= _quantity, "Seller does not have enough tokens");
-
-        // Transfer tokens from the seller to the buyer
-        require(token.transferFrom(_seller, msg.sender, _quantity), "Token transfer failed");
-
-         require(token2.balanceOf(_seller) >= _quantity, "Seller does not have enough tokens");
-
-        // Transfer tokens from the seller to the buyer
-        require(token2.transferFrom(msg.sender, _seller, _quantity), "Token transfer failed");
-
-        // Update token balances
-        tokenBalances[_seller] -= _quantity;
-        tokenBalances[msg.sender] += _quantity;
-
-        // Emit trade event
-        emit Trade(msg.sender, _seller, _quantity);
-
-}
     }
 
     // Sell tokens to the buyer
-    function sellTokens(address _buyer, uint256 _quantity, string memory _token1) external {
+    function sellTokens(address _buyer, uint256 _quantity) external {
         require(_buyer != address(0), "Invalid buyer address");
         require(_quantity > 0, "Invalid quantity");
 
-
-if(Strings.equal(_token1,"ftmUsdt")){
-        
         IERC20 token = IERC20(tokenAddress);
-
-        IERC20 token2 = IERC20(tokenAddress);
-
-        require(token.balanceOf(_buyer) >= _quantity, "Seller does not have enough tokens");
+        require(tokenBalances[msg.sender] >= _quantity, "Seller does not have enough tokens");
 
         // Transfer tokens from the seller to the buyer
-        require(token.transferFrom(_buyer, msg.sender, _quantity), "Token transfer failed");
-
-         require(token2.balanceOf(msg.sender) >= _quantity, "Seller does not have enough tokens");
-
-        // Transfer tokens from the seller to the buyer
-        require(token2.transferFrom(msg.sender, _buyer, _quantity), "Token transfer failed");
-
-
-        // Update token balances
-        tokenBalances[_buyer] -= _quantity;
-        tokenBalances[msg.sender] += _quantity;
-
-        // Emit trade event
-        emit Trade(msg.sender, _buyer, _quantity);
-}
-else if(Strings.equal(_token1,"UsdtFtm")){
-        IERC20 token = IERC20(tokenAddress);
-        IERC20 token2 = IERC20(tokenAddress);
-
-        require(token.balanceOf(_buyer) >= _quantity, "Seller does not have enough tokens");
-
-        // Transfer tokens from the seller to the buyer
-        require(token.transferFrom(_buyer, msg.sender, _quantity), "Token transfer failed");
-
-         require(token2.balanceOf(_buyer) >= _quantity, "Seller does not have enough tokens");
-
-        // Transfer tokens from the seller to the buyer
-        require(token2.transferFrom(msg.sender, _buyer, _quantity), "Token transfer failed");
-
-
-        // Update token balances
-        tokenBalances[_buyer] -= _quantity;
-        tokenBalances[msg.sender] += _quantity;
-
-        // Emit trade event
-        emit Trade(msg.sender, _buyer, _quantity);
-
-}
-else if(Strings.equal(_token1,"ftmEth")){
-        IERC20 token = IERC20(tokenAddress);
-        
-        IERC20 token2 = IERC20(tokenAddress);
-
-        require(token.balanceOf(_buyer) >= _quantity, "Seller does not have enough tokens");
-
-        // Transfer tokens from the seller to the buyer
-        require(token.transferFrom(_buyer, msg.sender, _quantity), "Token transfer failed");
-
-         require(token2.balanceOf(_buyer) >= _quantity, "Seller does not have enough tokens");
-
-        // Transfer tokens from the seller to the buyer
-        require(token2.transferFrom(msg.sender, _buyer, _quantity), "Token transfer failed");
-
-        // Update token balances
-        tokenBalances[_buyer] -= _quantity;
-        tokenBalances[msg.sender] += _quantity;
-
-        // Emit trade event
-        emit Trade(msg.sender, _buyer, _quantity);
-
-}
-
+        require(token.transfer(_buyer, _quantity), "Token transfer failed");
 
         // Update token balances
         tokenBalances[msg.sender] -= _quantity;

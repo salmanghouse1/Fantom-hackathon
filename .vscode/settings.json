@@ -1,5 +1,5 @@
 {
-    "solidity.compileUsingRemoteVersion": "v0.8.9+commit.e5eed63a",
+    "solidity.compileUsingRemoteVersion": "latest",
     "solidity.defaultCompiler": "remote",
     "solidity.compileUsingLocalVersion": "c:\\Fantom-hackathon\\soljson-v0.4.18+commit.9cf6e910.js"
 }
