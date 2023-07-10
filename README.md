@@ -1,4 +1,4 @@
-Greetings! This is the submission to the fantom hackathon.
+Greetings! This is the submission to the fantom hackathon. Only frontend works, no transactions will work
 
 It is a defi trading exchange for Fantom.
 
